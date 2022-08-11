@@ -20,4 +20,15 @@ public class Users extends BaseEntity {
     private Boolean emailStatus=false;
     private Boolean rowStatus=true;
 
+    public Users(String name, String surname, String password, String email, String phoneNumber) {
+        this.name = name;
+        this.surname = surname;
+        this.password = password;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+    }
+
+    public Users() {
+
+    }
 }
