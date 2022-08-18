@@ -2,6 +2,9 @@ package com.kiraz.kirazapp.model;
 
 import com.kiraz.kirazapp.base.BaseEntity;
 import lombok.Data;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
