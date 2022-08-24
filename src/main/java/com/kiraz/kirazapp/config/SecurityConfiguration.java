@@ -16,20 +16,27 @@ import org.springframework.security.web.SecurityFilterChain;
 @RequiredArgsConstructor
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class SecurityConfiguration {
+public class SecurityConfiguration{
+
     private final UserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
 
-    @Bean
+
     public AuthenticationManager authenticationManager(
             AuthenticationManagerBuilder authBuilder) throws Exception {
-        authBuilder.userDetailsService(userDetailsService)
+            authBuilder.userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder);
         return authBuilder.build();
     }
 
     @Bean
     protected SecurityFilterChain filtersChain(HttpSecurity http) throws Exception {
+        http.csrf().disable();
+        http.authorizeRequests().anyRequest().permitAll();
+        http.addFilter(new CustomAuthFilter());
         return http.build();
     }
+    @Bean
+    public AuthenticationManager authenticationManagerBean() throws Exception{
+        return authenticationManagerBean();}
 }

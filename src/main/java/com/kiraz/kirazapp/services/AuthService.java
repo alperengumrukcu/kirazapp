@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -46,5 +47,9 @@ public class AuthService implements UserDetailsService {
     }
     public Users changeUser(RegisterDTO registerDTO){
         return new Users(registerDTO.getName(),registerDTO.getSurname(),registerDTO.getPassword(),registerDTO.getEmail(),registerDTO.getPhoneNumber());
+    }
+
+    public List<Users> getUser() {
+        return userRepository.findAll();
     }
 }
