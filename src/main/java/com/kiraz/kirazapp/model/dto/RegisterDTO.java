@@ -1,12 +1,16 @@
 package com.kiraz.kirazapp.model.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.*;
 
 @Data
 @Validated
+@AllArgsConstructor
+@NoArgsConstructor
 public class RegisterDTO {
     private String name;
     private String surname;
