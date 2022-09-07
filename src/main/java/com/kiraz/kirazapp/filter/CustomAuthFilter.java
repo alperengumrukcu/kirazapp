@@ -19,7 +19,7 @@ public class CustomAuthFilter extends UsernamePasswordAuthenticationFilter {
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
     String email = request.getParameter("email");
     String password = request.getParameter("password");
-    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(email,password);
+    Authentication authToken = new UsernamePasswordAuthenticationToken(email,password);
     return authenticationManager.authenticate(authToken);
     }
 

@@ -2,17 +2,20 @@ package com.kiraz.kirazapp.model;
 
 import com.kiraz.kirazapp.base.BaseEntity;
 import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.util.Collection;
 
 @Entity
 @Table(name = "users")
 @Data
-public class Users extends BaseEntity {
+public class Users extends BaseEntity implements UserDetails {
 
     private String name;
     private String surname;
@@ -33,5 +36,35 @@ public class Users extends BaseEntity {
 
     public Users() {
 
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
     }
 }

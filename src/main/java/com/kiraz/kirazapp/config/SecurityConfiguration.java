@@ -1,42 +1,30 @@
 package com.kiraz.kirazapp.config;
 
-import lombok.RequiredArgsConstructor;
+import com.kiraz.kirazapp.filter.CustomAuthFilter;
+import com.kiraz.kirazapp.filter.CustomAuthorizationFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-@RequiredArgsConstructor
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration{
 
-    private final UserDetailsService userDetailsService;
-    private final PasswordEncoder passwordEncoder;
-
-
-    public AuthenticationManager authenticationManager(
-            AuthenticationManagerBuilder authBuilder) throws Exception {
-            authBuilder.userDetailsService(userDetailsService)
-                .passwordEncoder(passwordEncoder);
-        return authBuilder.build();
-    }
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     @Bean
     protected SecurityFilterChain filtersChain(HttpSecurity http) throws Exception {
+        http.httpBasic().disable();
         http.csrf().disable();
-        http.authorizeRequests().anyRequest().permitAll();
-        http.addFilter(new CustomAuthFilter());
+        http.authorizeRequests().antMatchers("/auth/**").permitAll();
+        http.authorizeRequests().anyRequest().authenticated();
+        http.addFilter(new CustomAuthFilter(authenticationManager));
+        http.addFilterBefore(new CustomAuthorizationFilter(), CustomAuthFilter.class);
         return http.build();
     }
-    @Bean
-    public AuthenticationManager authenticationManagerBean() throws Exception{
-        return authenticationManagerBean();}
 }
